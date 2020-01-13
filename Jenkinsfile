@@ -20,7 +20,8 @@ pipeline {
     }
     stage('Scan for vulnerabilities') {
       steps {
-        sh 'java -jar dvja-*.war && zap-cli quick-scan --self-contained --spider -r http://127.0.0.1 && zap-cli report -o zap-report.html -f html'
+        sh 'java -jar target/dvja-*.war && zap-cli quick-scan --self-contained --spider -r http://127.0.0.1 && zap-cli report -o zap-report.html -f html'
+        archiveArtifacts artifacts: 'zap-report.html', fingerprint: true
       }
     }
     stage('Publish to S3') {
@@ -32,11 +33,6 @@ pipeline {
       steps {
         cleanWs()
       }
-    }
-  }
-  post {
-    always {
-      archiveArtifacts artifacts: 'zap-report.html', fingerprint: true
     }
   }
 }

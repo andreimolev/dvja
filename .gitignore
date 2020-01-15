@@ -68,3 +68,6 @@ modules.xml
 .factorypath
 .project
 .settings/
+
+# Ignoring generated manifest file
+src/**/META-INF/
